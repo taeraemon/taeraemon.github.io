@@ -42,30 +42,62 @@
 </head>
 <body>
 
-  <div class="navbar">
-    <a href="index.html" class="logo">Taeraemon</a>
-    <div class="menu">
-      <a href="index.html">About</a>
-      <a href="1_blog.html">Blog</a>
-      <a href="2_publications.html">Publications</a>
-      <a href="3_projects.html" class="active">Projects</a>
-      <a href="doc/cv/20230920_CV_Kimtaeyoon.pdf" target="_blank">CV</a>
-    </div>
-  </div>
+  <div id="navbar-placeholder"></div>
+  <script src="/shared/load-navbar.js"></script>
 
   <div class="content">
     <h1>Projects</h1>
-
-    <!-- 프로젝트 1 -->
-    <div class="project-block">
-      <img src="image.png" alt="Project thumbnail">
-      <div class="project-text">
-        <h3><a href="projects/2024-04-08p.html">Floating Ball Simulation</a></h3>
-        <p>A basic Unity simulation of a floating ball in 3D space.</p>
-      </div>
-    </div>
-
+    <div id="project-list"></div>
   </div>
+
+  <script>
+    const projects = [
+      {
+        title: "Floating Ball Simulation",
+        file: "projects/2024-04-08p.html",
+        description: "A basic Unity simulation of a floating ball in 3D space.",
+        image: "image.png"
+      },
+      // 새로운 프로젝트 추가는 아래처럼 복붙해서 쓰기만 하면 돼!
+      // {
+      //   title: "My Cool Project",
+      //   file: "projects/2024-05-01p.html",
+      //   description: "Something awesome I made recently.",
+      //   image: "thumbs/mycoolproject.png"
+      // }
+    ];
+
+    const projectContainer = document.getElementById("project-list");
+
+    projects.forEach(p => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "project-block";
+
+      const img = document.createElement("img");
+      img.src = p.image;
+      img.alt = "Project thumbnail";
+
+      const text = document.createElement("div");
+      text.className = "project-text";
+
+      const h3 = document.createElement("h3");
+      const link = document.createElement("a");
+      link.href = p.file;
+      link.textContent = p.title;
+      h3.appendChild(link);
+
+      const desc = document.createElement("p");
+      desc.textContent = p.description;
+
+      text.appendChild(h3);
+      text.appendChild(desc);
+
+      wrapper.appendChild(img);
+      wrapper.appendChild(text);
+
+      projectContainer.appendChild(wrapper);
+    });
+  </script>
 
 </body>
 </html>
