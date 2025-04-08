@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blog - Taeraemon</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="navbar">
+    <a href="index.html" class="logo">Taeraemon</a>
+    <div class="menu">
+      <a href="index.html">About</a>
+      <a href="1_blog.html" class="active">Blog</a>
+      <a href="2_publications.html">Publications</a>
+      <a href="3_projects.html">Projects</a>
+      <a href="doc/cv/20230920_CV_Kimtaeyoon.pdf" target="_blank">CV</a>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Blog</h1>
+    <ul id="blog-list"></ul>
+  </div>
+
+  <script>
+    const blogPosts = [
+      {
+        title: "2025-04-08: 1 + 1 = 2",
+        file: "blog/2025-04-08.html"
+      },
+    ];
+
+    const listContainer = document.getElementById("blog-list");
+
+    blogPosts.forEach(post => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = post.file;
+      a.textContent = post.title;
+      li.appendChild(a);
+      listContainer.appendChild(li);
+    });
+  </script>
+
+</body>
+</html>
