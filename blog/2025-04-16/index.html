@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blog Post</title>
-  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../../style.css" />
 
-  <!-- MathJax 설정 -->
+  <!-- MathJax -->
   <script>
     window.MathJax = {
       tex: {
@@ -28,26 +28,23 @@
 </head>
 <body>
 
-  <!-- 네비게이션 -->
   <div id="navbar-placeholder"></div>
   <script src="/shared/load-navbar.js"></script>
 
-  <!-- 콘텐츠 -->
   <div class="content">
     <h1 style="margin-bottom: 0;">Blog</h1>
     <p style="font-size: 14px; color: gray; margin-top: 5px;">
-      📂 <a href="../1_blog.html">Blog</a> / <span id="date-display"></span>
+      📂 <a href="../../1_blog.html">Blog</a> / <span id="date-display"></span>
     </p>
 
-    <!-- 마크다운 결과 출력 -->
     <div id="output">Loading...</div>
   </div>
 
-  <!-- 날짜, 마크다운, 수식 처리 통합 -->
   <script>
-    const postDate = "2025-04-16";  // ✅ 날짜는 여기만 고치면 됨!
-
+    const folderName = window.location.pathname.split("/").filter(Boolean).slice(-2, -1)[0];
+    const postDate = folderName;
     document.title = `${postDate} Blog Post`;
+    document.getElementById("date-display").innerHTML = `<strong>${postDate}</strong>`;
 
     function protectMath(text) {
       const mathList = [];
@@ -78,8 +75,7 @@
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      document.getElementById("date-display").innerHTML = `<strong>${postDate}</strong>`;
-      loadMarkdown(`${postDate}.md`);
+      loadMarkdown("post.md"); // 같은 폴더 내 post.md 로딩
     });
   </script>
 
