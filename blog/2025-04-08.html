@@ -6,15 +6,30 @@
   <title>2025-04-08 Blog Post</title>
   <link rel="stylesheet" href="../style.css" />
 
-  <!-- MathJax 추가 -->
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  <!-- MathJax 설정 -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      startup: {
+        typeset: false
+      }
+    };
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- marked.js -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    #output { background: #fff; padding: 1rem; border-radius: 10px; }
+  </style>
 </head>
 <body>
 
-  <!-- 공통 네비게이션 -->
   <div id="navbar-placeholder"></div>
   <script src="/shared/load-navbar.js"></script>
 
@@ -24,34 +39,44 @@
       📂 <a href="../1_blog.html">Blog</a> / <strong>2025-04-08</strong>
     </p>
 
-    <h1>칼만 필터 수식</h1>
-    <p>칼만 필터의 예측 단계는 다음과 같이 나타낼 수 있어요:</p>
-
-    <div>
-      \[
-        \begin{aligned}
-          \hat{x}_{k|k-1} &= A \hat{x}_{k-1|k-1} + B u_k \\
-          P_{k|k-1} &= A P_{k-1|k-1} A^T + Q
-        \end{aligned}
-      \]
-    </div>
-
-    <p>그리고 갱신 단계는 아래와 같아요:</p>
-
-    
-    <img src="../image.png" alt="Simulation Image" style="max-width: 100%; height: auto; margin-top: 20px;" />
-
-
-    <div>
-      \[
-        \begin{aligned}
-          K_k &= P_{k|k-1} H^T (H P_{k|k-1} H^T + R)^{-1} \\
-          \hat{x}_{k|k} &= \hat{x}_{k|k-1} + K_k (z_k - H \hat{x}_{k|k-1}) \\
-          P_{k|k} &= (I - K_k H) P_{k|k-1}
-        \end{aligned}
-      \]
-    </div>
+    <!-- 마크다운 결과 출력 -->
+    <div id="output">Loading...</div>
   </div>
+
+  <!-- 마크다운 로딩 및 수식 처리 -->
+  <script>
+    function protectMath(text) {
+      const mathList = [];
+      const protectedText = text.replace(/(\${1,2})([\s\S]+?)\1/g, (match) => {
+        mathList.push(match);
+        return `%%MATH${mathList.length - 1}%%`;
+      });
+      return { protectedText, mathList };
+    }
+
+    function restoreMath(html, mathList) {
+      return html.replace(/%%MATH(\d+)%%/g, (_, index) => mathList[+index]);
+    }
+
+    async function loadMarkdown(url) {
+      try {
+        const res = await fetch(url);
+        const text = await res.text();
+        const { protectedText, mathList } = protectMath(text);
+        const parsed = marked.parse(protectedText);
+        const restored = restoreMath(parsed, mathList);
+        document.getElementById("output").innerHTML = restored;
+        await MathJax.typesetPromise();
+      } catch (err) {
+        document.getElementById("output").innerHTML = "Failed to load content.";
+        console.error(err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadMarkdown("2025-04-08.md");
+    });
+  </script>
 
 </body>
 </html>
