@@ -1,111 +1,109 @@
-시계열을 다루는데 RNN을 쓰다가, 장기기억 관련 해결을 위해 LSTM을 다뤘었음.
+# 1. Seq2Seq와 Attention
 
-이번에 다룰거는 Seq2Seq이랑 어텐션임
-
-Seq2Seq는 입력 시퀀스를 받아서 다른 시퀀스로 변환하는 구조임. (ex 번역)
-
-보통 인코더와 디코더를 쓰는데, LSTM으로 만들어져 있음.
-
-그리고 긴 문장에서 중요한 정보를 집중하기 위한 어텐션까지 보고자 함. (Bahdanau, Luong)
-
-
+RNN을 이용해 시계열을 다루다 보면 장기 의존성 문제를 해결하려고 LSTM을 사용하게 됨.  
+이 흐름을 발전시켜 **입력 시퀀스를 출력 시퀀스로 변환**하는 대표적인 구조가 **Seq2Seq(Sequence-to-Sequence)** 모델임.  
+대표적인 예로 번역기가 있다.
 
 ---
 
-### Seq2Seq
+## 1.1. Seq2Seq 기본 구조
 
-seq2seq는 인코더-디코터 모델이라고도 부름.
+1. **Seq2Seq**는 인코더-디코더 구조를 갖는다.
+    - 입력 시퀀스를 고정된 길이 벡터로 요약(context vector)  
+    - context vector를 바탕으로 출력 시퀀스 생성
 
-입력된 시퀀스를 다른 도메인의 시퀀스로 출력하는데 많이 쓰임 (ex 번역기)
+    <div style="text-align: center;">
+      <img src="./01_seq2seq_simple.png" style="width:40%;"><br>
+    </div>
 
-<div style="text-align: center;">
-  <img src="./01_seq2seq_simple.png" style="width:40%;"><br>
-</div>
+2. **인코더**
+    - 입력 시퀀스를 순차적으로 처리
+    - 마지막 hidden state를 **context vector**로 출력
 
-위와 같이 인코더가 입력 시퀀스를 고정된 길이의 context vector로 만듬.
+3. **디코더**
+    - context vector를 입력받아 하나씩 토큰을 예측하며 시퀀스 생성
 
-그리고 디코더는 고정된 context vector을 받아서 시퀀스를 출력함.
+4. **동작 흐름**
+    - 인코더의 마지막 hidden state → 디코더의 초기 hidden state로 전달
+    - 디코더의 첫 입력은 special token `<sos>`
+    - 이후 디코더의 출력이 다음 입력으로 사용되며, `<eos>`가 나올 때까지 반복
 
-내부의 셀을 다 쪼개보면 아래와 같이 동작함.
+    <div style="text-align: center;">
+      <img src="./02_seq2seq_detail.png" style="width:80%;"><br>
+    </div>
 
+---
 
-<div style="text-align: center;">
-  <img src="./02_seq2seq_detail.png" style="width:80%;"><br>
-</div>
+## 1.2. Teacher Forcing
 
-인코더는 마지막 LSTM의 마지막 시점 은닉 상태를 전달. (context vector)
+- 학습 시에는 디코더가 예측한 결과 대신 **실제 정답(ground truth)**을 다음 입력으로 넣어 학습  
+- **Teacher Forcing**:  
+    - 장점: 학습 안정화, 빠른 수렴  
+    - 단점: 테스트(실전)에서는 정답을 알 수 없으므로 오류가 누적될 수 있음  
+- 이 문제를 완화하기 위해 **scheduled sampling**(teacher forcing 비율 조절) 기법이 등장
 
-이거는 디코더의 첫 셀의 은닉 상태에 활용.
+---
 
-첫 셀의 데이터 입력은 sos로 시작.
+## 1.3. Attention 메커니즘
 
-첫 셀의 출력은 다음 셀의 입력에 진입. eos가 출력으로 나올 때까지 반복.
+Seq2Seq의 한계  
+  - context vector 하나에 모든 정보가 압축되면서 정보 손실 발생  
+  - LSTM이라도 긴 시퀀스에서는 기울기 소실 문제가 존재
 
-
-#### Teacher forcing
-
-학습 단계에서는 Teacher forcing이라는게 활용됨.
-
-학습 단계에서 직전 디코더의 출력이 입력으로 들어오다 보니, 첫 단추를 잘못 끼우면 연쇄적으로 학습이 안됨.
-
-그래서 학습 단계에서는 각 셀의 입력에 정답을 넣어서 셀 별로 학습이 잘 되게 하는게 Teacher forcing.
-
-근데 이러다 보니 테스트 과정에서 잘 안되기도 해서.. teacher forcing의 비율을 조절하는 scheduled sampling같은 이런저런 기법들이 제안됨.
-
-
-
-&nbsp;
-### Attention
-
-seq2seq에 남아있던 문제를 해결하기 위한것 이었는데,
-고정된 벡터에 압축하다보니 발생하는 정보 손실,
-고질적인 기울기 소실
-
-을 해결하고자 했음.
-
+이 한계를 해결하기 위해 **Attention** 도입
 
 <div style="text-align: center;">
   <img src="./03_attention.png" style="width:80%;"><br>
 </div>
 
-그래서 기존 1차원 context vector만 넘기는게 아니라, 위와 같이 각 셀에서의 hidden state를 누적한 hs를 모두 활용.
+### 1.3.1. Attention 원리
 
-그리고 이제 context vector을 디코더에 잘 넘겨야하는데 어떻게 할것이냐 !
-
+- 인코더의 모든 hidden state들을 저장  
+- 디코더가 각 시점마다 **어느 부분에 집중(attend)** 할지 가중치를 계산
 
 <div style="text-align: center;">
   <img src="./04_attention_weight.png" style="width:80%;"><br>
 </div>
 
+#### 수식 흐름 (Dot-product Attention 기준)
 
+1. **score 계산 (내적)**  
+    $ score(s_i, t) = h_s^{(i)^\top} h_t $
 
-디코더의 각 셀마다, $h_s$이 자신과 얼마나 중요한지를 감안한다. 이 역시 어떻게 하냐 !
+2. **attention weight(softmax 정규화)**  
+    $ \alpha_i = \frac{\exp(score(s_i, t))}{\sum_j \exp(score(s_j, t))} $
 
-현재 시점 디코더의 hidden state를 $h_t$라고 하자.
+3. **context vector 계산(가중합)**  
+    $ c_t = \sum_i \alpha_i h_s^{(i)} $
 
-$ a_{attention\;weight} = h_s * h_t $ ->  내적을 통해 가중치를 계산
-
-$ c_t = h_s * a $ -> 가중치와 context vector의 가중합 계산
-
-다이어그램으로 풀어서 표현하면 아래와 같다.
+- 구한 $ c_t $는 디코더 해당 시점의 출력 계산에 사용됨
 
 <div style="text-align: center;">
   <img src="./05_attention_weightsum.png" style="width:80%;"><br>
 </div>
 
+---
 
-결국, Attention이 적용된 Decoder의 계층은 아래와 같이 풀어서 그릴 수 있다.
+### 1.3.2. Attention Decoder 구조
+
+- 디코더가 각 시점마다 context vector를 새로 계산해 정보 손실 최소화  
+- 더 섬세한 시퀀스 변환 가능
 
 <div style="text-align: center;">
   <img src="./06_attention_decoder.png" style="width:80%;"><br>
 </div>
 
+---
 
+## 1.4. 정리
 
-가중치 (어텐션 스코어)를 구하는 방식이 내적, 즉 dot-product 방식이었기 때문에 이는 dot-product attention이라 불린다.
-
-이 외에도 scaled dot, general, concat, location-base등이 제안되었는데, dot, concat이 주로 다뤄지며 dot은 Luong, concat은 Bahdanau라고도 불린다.
-
-다음은 트랜스포머를 다루게 된다.
+- Seq2Seq는 인코더-디코더 구조로, 입력 시퀀스를 context vector로 요약해 출력 시퀀스를 생성
+- Attention 메커니즘은 각 시점마다 입력 시퀀스의 중요 부분을 동적으로 참조하여, 정보 손실과 기울기 소실 문제를 해결  
+- 이 구조는 이후 **Transformer**의 핵심으로 발전
 
 ---
+
+## 🔗 Reference
+
+- https://wikidocs.net/22893
+- 밑바닥부터 시작하는 딥러닝 2
