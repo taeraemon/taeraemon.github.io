@@ -10,7 +10,9 @@ document.addEventListener("DOMContentLoaded", () => {
       // 현재 페이지 경로에 따라 active 클래스 설정
       const links = document.querySelectorAll(".navbar .menu a");
       links.forEach(link => {
-        if (window.location.pathname.includes(link.getAttribute("href"))) {
+        const href = link.getAttribute("href");
+        // 정확한 경로 매칭
+        if (window.location.pathname === href) {
           link.classList.add("active");
         }
       });
