@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LTE based Signal Collecting Tag (S.O.X)</title>     <!-- FIXME: 프로젝트 이름 바꾸기 -->
+  <link rel="stylesheet" href="../../style.css" />
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      startup: { typeset: false }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- marked.js -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    body { font-family: sans-serif; }
+    #output { background: #fff; padding: 1rem; border-radius: 10px; }
+  </style>
+</head>
+<body>
+
+  <div id="navbar-placeholder"></div>
+  <script src="/shared/load-navbar.js"></script>
+
+  <div class="content">
+    <h1 style="margin-bottom: 0;">LTE based Signal Collecting Tag (S.O.X)</h1>      <!-- FIXME: 프로젝트 이름 바꾸기 -->
+    <p style="font-size: 14px; color: gray; margin-top: 5px;">
+      🛠️ <a href="../../3_projects.html">Projects</a> / <span id="project-name"></span>
+    </p>
+
+    <div id="output">Loading...</div>
+  </div>
+
+  <script>
+    const folderName = window.location.pathname.split("/").filter(Boolean).slice(-2, -1)[0];
+    const projectName = folderName.toUpperCase(); // FTS, BW03, BW04 등
+    document.title = `${projectName} - Project`;
+    document.getElementById("project-name").innerHTML = `<strong>${projectName}</strong>`;
+
+    function protectMath(text) {
+      const mathList = [];
+      const protectedText = text.replace(/(\${1,2})([\s\S]+?)\1/g, (match) => {
+        mathList.push(match);
+        return `%%MATH${mathList.length - 1}%%`;
+      });
+      return { protectedText, mathList };
+    }
+
+    function restoreMath(html, mathList) {
+      return html.replace(/%%MATH(\d+)%%/g, (_, index) => mathList[+index]);
+    }
+
+    async function loadMarkdown(url) {
+      try {
+        const res = await fetch(url);
+        const text = await res.text();
+        const { protectedText, mathList } = protectMath(text);
+        const parsed = marked.parse(protectedText);
+        const restored = restoreMath(parsed, mathList);
+        document.getElementById("output").innerHTML = restored;
+        await MathJax.typesetPromise();
+      } catch (err) {
+        document.getElementById("output").innerHTML = "Failed to load content.";
+        console.error(err);
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadMarkdown("post.md"); // 같은 폴더 내 post.md 로딩
+    });
+  </script>
+
+</body>
+</html> 
