@@ -1,6 +1,7 @@
 # TODO
 
-
+orekit, basilisk, gmat, ins savage
+강화학습 DDPG 공부
 
 시스템 모델링 - 선형시스템, 상태공간, 전달함수, 시스템 응답, 안정성(Lyapunov, Routh-Hurwitz, Nyquist), 제어가능성, 관측가능성
 
