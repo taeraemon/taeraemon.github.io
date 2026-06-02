@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-labelledby="title desc">
+  <title id="title">Blue robot cat avatar</title>
+  <desc id="desc">A friendly blue robot cat inspired avatar for Taeraemon.</desc>
+  <rect width="360" height="360" rx="28" fill="#b9e0ec"/>
+  <circle cx="180" cy="174" r="112" fill="#2f9fd0"/>
+  <circle cx="180" cy="188" r="92" fill="#fffdf8"/>
+  <circle cx="145" cy="142" r="25" fill="#fff"/>
+  <circle cx="195" cy="142" r="25" fill="#fff"/>
+  <circle cx="154" cy="148" r="8" fill="#1d4154"/>
+  <circle cx="186" cy="148" r="8" fill="#1d4154"/>
+  <circle cx="170" cy="171" r="10" fill="#d94d76"/>
+  <path d="M170 181v26" stroke="#1d4154" stroke-width="5" stroke-linecap="round"/>
+  <path d="M135 205c24 24 66 24 90 0" fill="none" stroke="#1d4154" stroke-width="5" stroke-linecap="round"/>
+  <path d="M90 175h52M88 198h54M220 175h52M220 198h54" stroke="#1d4154" stroke-width="4" stroke-linecap="round"/>
+  <path d="M108 84 82 52l56 16M252 84l26-32-56 16" fill="#2f9fd0" stroke="#1d7899" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M119 282h122" stroke="#d94d76" stroke-width="16" stroke-linecap="round"/>
+  <circle cx="180" cy="286" r="18" fill="#f4cf65" stroke="#c69b32" stroke-width="5"/>
+</svg>
