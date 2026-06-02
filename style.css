@@ -323,6 +323,51 @@ a:focus {
   padding: 22px;
 }
 
+.publication-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.publication-section h2 {
+  margin: 22px 0 12px;
+  color: #246d8e;
+  font-size: 20px;
+}
+
+.publication-list {
+  display: grid;
+  gap: 18px;
+  padding-left: 24px;
+  margin: 0;
+}
+
+.publication-list li {
+  padding-left: 6px;
+}
+
+.publication-title {
+  margin: 0 0 4px;
+  color: #174f6c;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.publication-authors,
+.publication-venue,
+.publication-links {
+  margin: 3px 0;
+}
+
+.publication-venue {
+  color: #4f6571;
+  font-style: italic;
+}
+
+.publication-links {
+  font-size: 14px;
+}
+
 .list-stack {
   display: grid;
   gap: 14px;
