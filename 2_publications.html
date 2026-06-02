@@ -2,87 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Publications - Taeraemon</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    .pub-block {
-      border: 1px solid #ddd;
-      padding: 20px;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-    }
-
-    .pub-block img {
-      width: 160px;
-      height: auto;
-      object-fit: cover;
-    }
-
-    .pub-text {
-      flex-grow: 1;
-    }
-
-    .pub-text h3 {
-      margin: 0;
-      color: #007bff;
-    }
-
-    .pub-text p {
-      margin: 5px 0 10px 0;
-    }
-
-    .pub-text a {
-      font-size: 14px;
-      color: #555;
-    }
-  </style>
 </head>
 <body>
-
   <div id="navbar-placeholder"></div>
   <script src="/shared/load-navbar.js"></script>
 
-  <div class="content">
-    <h1>Publications</h1>
+  <main class="content">
+    <section class="content-shell">
+      <h1 class="page-title">Publications</h1>
 
-    <div class="pub-block">
-      <img src="/publication/thumb_2025_KSAS_S.png" alt="KSAS2025S Representative Image">
-      <div class="pub-text">
-        <h3>가상환경 기반 적외선 영상 표적 추적 기법의 성능 검증</h3>
-        <div style="font-style: italic; color: #666;">Performance Evaluation of Infrared Target Tracking Methods in Virtual Environments</div>
-        <p>Tae Yoon Kim, Chan Gook Park</p>
-        <!-- <a href="/doc/KSAS2025S.pdf" target="_blank">[PDF]</a> -->
-      </div>
-    </div>
+      <section class="list-stack" aria-label="Publication list">
+        <article class="item-card">
+          <img src="/publication/thumb_2025_KSAS_S.png" alt="KSAS 2025 spring representative image" />
+          <div>
+            <h3>가상환경 기반 적외선 영상 표적 추적 기법의 성능 검증</h3>
+            <p class="meta">Performance Evaluation of Infrared Target Tracking Methods in Virtual Environments</p>
+            <p>Tae Yoon Kim, Chan Gook Park</p>
+          </div>
+        </article>
 
+        <article class="item-card">
+          <img src="/publication/thumb_2025_KST.png" alt="KST 2025 representative image" />
+          <div>
+            <h3>Performance Analysis of Siamese Tracker through Preprocessing of Infrared Images</h3>
+            <p>Tae Yoon Kim, Chan Gook Park</p>
+            <a class="link-muted" href="https://scholar.google.com/citations?view_op=view_citation&hl=ko&user=U3ejY2gAAAAJ&citation_for_view=U3ejY2gAAAAJ:u5HHmVD_uO8C" target="_blank" rel="noreferrer">[link]</a>
+          </div>
+        </article>
 
-    <div class="pub-block">
-      <img src="/publication/thumb_2025_KST.png" alt="KST2025 Representative Image">
-      <div class="pub-text">
-        <h3>Performance Analysis of Siamese Tracker through Preprocessing of Infrared Images</h3>
-        <p>Tae Yoon Kim, Chan Gook Park</p>
-        <!-- <a href="/doc/KST2025.pdf" target="_blank">[PDF]</a> -->
-        <a href="https://scholar.google.com/citations?view_op=view_citation&hl=ko&user=U3ejY2gAAAAJ&citation_for_view=U3ejY2gAAAAJ:u5HHmVD_uO8C" target="_blank">[link]</a>
-      </div>
-    </div>
-
-    <div class="pub-block">
-      <img src="/publication/thumb_2024_KSAS_F.png" alt="KSAS2024F Representative Image">
-      <div class="pub-text">
-        <h3>Siamese 네트워크의 템플릿 업데이트를 통한 적외선 영상 표적 추적 기법 연구</h3>
-        <div style="font-style: italic; color: #666;">Infrared Target Tracking Method Based on Siamese Network with Template update</div>
-        <p>Tae Yoon Kim, In Ho Lee, Chan Gook Park</p>
-        <!-- <a href="/doc/KSAS2024F.pdf" target="_blank">[PDF]</a> -->
-        <a href="https://scholar.google.com/citations?view_op=view_citation&hl=ko&user=U3ejY2gAAAAJ&citation_for_view=U3ejY2gAAAAJ:u-x6o8ySG0sC" target="_blank">[link]</a>
-      </div>
-    </div>
-
-
-
-  </div>
-
+        <article class="item-card">
+          <img src="/publication/thumb_2024_KSAS_F.png" alt="KSAS 2024 fall representative image" />
+          <div>
+            <h3>Siamese 네트워크의 템플릿 업데이트를 통한 적외선 영상 표적 추적 기법 연구</h3>
+            <p class="meta">Infrared Target Tracking Method Based on Siamese Network with Template update</p>
+            <p>Tae Yoon Kim, In Ho Lee, Chan Gook Park</p>
+            <a class="link-muted" href="https://scholar.google.com/citations?view_op=view_citation&hl=ko&user=U3ejY2gAAAAJ&citation_for_view=U3ejY2gAAAAJ:u-x6o8ySG0sC" target="_blank" rel="noreferrer">[link]</a>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
 </body>
 </html>
