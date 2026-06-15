@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECI, ECEF, NED 좌표계 - Taeraemon</title>
+  <link rel="stylesheet" href="/style.css" />
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [["\\(", "\\)"], ["$", "$"]] },
+      svg: { fontCache: "global" }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div id="navbar-placeholder"></div>
+  <script src="/shared/load-navbar.js"></script>
+
+  <main class="content">
+    <article class="content-shell blog-post">
+      <p class="post-kicker">COORDINATE FRAMES</p>
+      <h1 class="page-title">ECI, ECEF, NED 좌표계</h1>
+      <p class="post-meta">항법에서 자주 쓰는 세 좌표계를 짧게 정리.</p>
+
+      <section class="post-section post-summary">
+        <h2>핵심만</h2>
+        <ul>
+          <li><strong>ECI</strong>: 지구 중심, 관성 좌표계. 궤도 운동을 볼 때 편함.</li>
+          <li><strong>ECEF</strong>: 지구 중심, 지구와 함께 회전. 위도/경도/지도와 잘 맞음.</li>
+          <li><strong>NED</strong>: 한 지점의 접평면 좌표계. North-East-Down 순서.</li>
+          <li>ECI와 ECEF는 원점이 같고, ECEF가 지구 자전각만큼 ECI에 대해 회전한다.</li>
+          <li>그림은 3D 축을 2D로 투영한 도식이다. 실제 각 좌표계의 축은 서로 직교한다.</li>
+        </ul>
+      </section>
+
+      <figure class="post-figure compact-figure">
+        <img src="/blog/assets/ecef-eci-ned-frame.svg" alt="ECI, ECEF, NED 좌표계 TikZ 그림" />
+        <figcaption>ECI/ECEF는 지구 중심 좌표계, NED는 특정 위치의 국소 접평면 좌표계.</figcaption>
+      </figure>
+
+      <section class="post-section">
+        <h2>ECI</h2>
+        <ul>
+          <li>Earth-Centered Inertial.</li>
+          <li>원점: 지구 중심.</li>
+          <li>축: 지구와 함께 돌지 않는 관성 기준.</li>
+          <li>용도: 위성 궤도, 장거리 비행체 운동 방정식.</li>
+        </ul>
+      </section>
+
+      <section class="post-section">
+        <h2>ECEF</h2>
+        <ul>
+          <li>Earth-Centered Earth-Fixed.</li>
+          <li>원점: 지구 중심.</li>
+          <li>축: 지구와 함께 자전.</li>
+          <li>용도: GNSS, 지상국, 위도/경도/고도.</li>
+        </ul>
+        <div class="equation-block">
+          \[
+            \mathbf r^e \approx \mathbf R_3(\theta_{GST}) \mathbf r^i
+          \]
+        </div>
+        <p>
+          여기서 \( \theta_{GST} \)는 지구 자전에 따른 각도다.
+          실제 정밀 항법에서는 세차, 장동, 극운동 보정까지 들어간다.
+        </p>
+      </section>
+
+      <section class="post-section">
+        <h2>NED</h2>
+        <ul>
+          <li>North-East-Down.</li>
+          <li>원점: 차량 또는 기준점.</li>
+          <li>North/East: 지역 접평면 위.</li>
+          <li>Down: 지구 중심 쪽.</li>
+          <li>용도: 항공기 자세, 속도, 고도 오차, 로컬 guidance.</li>
+        </ul>
+        <div class="equation-block">
+          \[
+          \mathbf C^n_e =
+          \begin{bmatrix}
+          -\sin\phi\cos\lambda & -\sin\phi\sin\lambda & \cos\phi \\
+          -\sin\lambda & \cos\lambda & 0 \\
+          -\cos\phi\cos\lambda & -\cos\phi\sin\lambda & -\sin\phi
+          \end{bmatrix}
+          \]
+        </div>
+      </section>
+
+      <section class="post-section source-note">
+        <h2>그림 소스</h2>
+        <p>
+          TikZ 원본:
+          <a href="/blog/assets/ecef-eci-ned-frame.tex">blog/assets/ecef-eci-ned-frame.tex</a>.
+          블로그에는 컴파일된 SVG를 넣었다.
+        </p>
+      </section>
+    </article>
+  </main>
+</body>
+</html>

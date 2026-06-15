@@ -352,6 +352,112 @@ a:focus {
   font-style: italic;
 }
 
+.blog-list-item {
+  display: grid;
+  gap: 4px;
+}
+
+.blog-list-item a {
+  color: #174f6c;
+  font-size: 17px;
+  font-weight: 900;
+}
+
+.blog-list-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.blog-post {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.blog-post .page-title {
+  font-size: 31px;
+}
+
+.post-kicker {
+  margin: 0 0 5px;
+  color: #d94d76;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.post-meta {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+  font-style: italic;
+}
+
+.post-section {
+  margin-top: 18px;
+}
+
+.post-section h2 {
+  margin: 0 0 8px;
+  color: #246d8e;
+  font-size: 20px;
+}
+
+.post-section p {
+  margin: 0 0 10px;
+}
+
+.post-section ul {
+  display: grid;
+  gap: 5px;
+  margin: 0 0 10px;
+  padding-left: 20px;
+}
+
+.post-section li {
+  padding-left: 2px;
+}
+
+.post-figure {
+  margin: 14px 0;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.post-figure img {
+  display: block;
+  width: min(100%, 560px);
+  margin: 0 auto;
+}
+
+.compact-figure {
+  width: min(100%, 620px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-figure figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+.equation-block {
+  overflow-x: auto;
+  margin: 10px 0;
+  padding: 8px 10px;
+  background: #f7fbfd;
+  border: 1px dashed #b7cfda;
+  border-radius: 6px;
+}
+
+.source-note {
+  padding-top: 14px;
+  border-top: 1px dotted var(--line);
+}
+
 .publication-page {
   max-width: 900px;
   margin: 0 auto;
@@ -496,5 +602,9 @@ a:focus {
 
   .item-card img {
     width: 100%;
+  }
+
+  .blog-post .page-title {
+    font-size: 29px;
   }
 }
