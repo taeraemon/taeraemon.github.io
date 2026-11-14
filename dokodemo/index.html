@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog · Taeyoon Kim</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/shared/avatar.svg" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <nav class="nav">
+      <a href="/" class="logo">Taeraemon</a>
+      <div class="menu">
+        <a href="/">Home</a>
+        <a href="/publications.html">Publications</a>
+      </div>
+    </nav>
+
+    <h1 class="page-title">Logs</h1>
+    <p class="post-meta" id="count"></p>
+
+    <section>
+      <ol class="loglist" id="list"><li class="empty">Loading…</li></ol>
+    </section>
+  </div>
+
+  <script>
+    fetch("posts.json", { cache: "no-cache" }).then(r => r.json()).then(posts => {
+      posts.sort((a, b) => b.date.localeCompare(a.date) || b.slug.localeCompare(a.slug));
+      document.getElementById("count").textContent = `${posts.length} log${posts.length === 1 ? "" : "s"}`;
+      document.getElementById("list").innerHTML = posts.map(p =>
+        `<li><time>${p.date}</time><span class="tag">${p.tag}</span><a href="post.html?p=${encodeURIComponent(p.slug)}">${p.title}</a></li>`
+      ).join("") || '<li class="empty">Nothing yet.</li>';
+    });
+  </script>
+</body>
+</html>

@@ -15,7 +15,6 @@
       <div class="menu">
         <a href="/" aria-current="page">Home</a>
         <a href="/publications.html">Publications</a>
-        <a href="/blog.html">Blog</a>
       </div>
     </nav>
 
@@ -66,5 +65,16 @@
 
     <footer>Last updated: November 14, 2026</footer>
   </div>
+  <script>
+    // tap the photo 5 times quickly
+    (() => {
+      let n = 0, t;
+      document.querySelector(".profile img").addEventListener("click", () => {
+        clearTimeout(t);
+        if (++n >= 5) location.href = "/dokodemo/";
+        t = setTimeout(() => (n = 0), 1500);
+      });
+    })();
+  </script>
 </body>
 </html>
