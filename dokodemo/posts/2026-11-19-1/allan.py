@@ -47,11 +47,13 @@ def adev(omega, fs, n_tau=60):
 tau, sig = adev(omega, fs)
 
 # read the parameters back off the curve
-N_hat = np.interp(0, np.log10(tau), sig)                 # sigma at tau = 1 s
+N_curve = np.interp(0, np.log10(tau), sig)               # curve value at tau = 1 s (slightly high)
+short = tau < 0.1                                        # region where the -1/2 slope dominates
+N_hat = np.median(sig[short] * np.sqrt(tau[short]))      # -1/2 line evaluated at tau = 1 s
 B_hat = sig.min() / np.sqrt(2 * np.log(2) / np.pi)       # flat bottom / 0.664
 long = tau > 2000                                        # region where the +1/2 slope dominates
 K_hat = np.median(sig[long] * np.sqrt(3 / tau[long]))    # extend that line back to tau = 3 s
-print(f"N  true {N*60:.3f}  read {N_hat*60:.3f} deg/sqrt(h)")
+print(f"N  true {N*60:.3f}  read {N_hat*60:.3f} deg/sqrt(h)  (curve at 1 s: {N_curve*60:.3f})")
 print(f"B  true {B*3600:.2f}  read {B_hat*3600:.2f} deg/h")
 print(f"K  true {K*3600*60:.2f}  read {K_hat*3600*60:.2f} deg/h/sqrt(h)")
 
@@ -68,7 +70,7 @@ ax.loglog(t, 0 * t + 0.664 * B * to_h, "--", c="#d1495b", label=r"Bias instabili
 ax.loglog(t, K * np.sqrt(t / 3) * to_h, "--", c="#2a9d8f", label=r"RRW  $K\sqrt{\tau/3}$  (slope $+1/2$)")
 ax.plot(1, N * to_h, "o", c="#1b6fb5")
 ax.plot(3, K * to_h, "o", c="#2a9d8f")
-ax.set(xlabel=r"$\tau$ [s]", ylabel=r"$\sigma(\tau)$ [deg/h]", xlim=(1e-2, 3e4), ylim=(0.5, 300))
+ax.set(xlabel=r"$\tau$ [s]", ylabel=r"$\sigma(\tau)$ [deg/h]", xlim=(1e-2, 3e4), ylim=(0.2, 300))
 ax.grid(True, which="both", alpha=0.25)
 ax.legend(fontsize=8.5, loc="upper right")
 fig.tight_layout()
