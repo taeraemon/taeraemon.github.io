@@ -1,6 +1,6 @@
-"""Simulate a gyro with ARW + bias instability + RRW and plot its Allan deviation.
+"""Simulate a gyro with ARW + bias instability + RRW and draw the post's figures.
 
-python3 allan.py   ->  adev.png next to this file
+python3 allan.py   ->  adev.png, noise_types.png, clusters.png, filter.png next to this file
 """
 import pathlib
 import numpy as np
